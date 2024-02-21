@@ -20,7 +20,24 @@ export interface DescriptionFormProps {
   courseId: string;
 }
 
+export interface ImageFormProps {
+  initialData: Course;
+  courseId: string;
+}
+
 export interface FileUploadProps {
-  onChange: (url?: string) => void;
+  onChange(url?: string): void;
   endpoint: keyof typeof ourFileRouter;
+}
+
+export interface ComboboxProps {
+  options: { label: string; value: string }[];
+  value?: string;
+  onChange(value?: string): void;
+}
+
+export interface CategoryFormProps {
+  initialData: Course;
+  courseId: string;
+  options: { label: string; value: string }[];
 }
