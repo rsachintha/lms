@@ -62,3 +62,32 @@ export interface ChaptersListProps {
   onReorder: (updateData: { id: string; position: number }[]) => void;
   onEdit: (id: string) => void;
 }
+
+export interface ChapterTitleFormProps {
+  initialData: {
+    title: string;
+  };
+  courseId: string;
+  chapterId: string;
+}
+
+export interface EditorProps {
+  onChange(value: string): void;
+  value: string;
+}
+
+export interface PreviewProps {
+  value: string;
+}
+
+export interface ChapterDescriptionFormProps {
+  initialData: Chapter;
+  courseId: string;
+  chapterId: string;
+}
+
+export interface ChapterAccessFormProps {
+  initialData: Chapter;
+  courseId: string;
+  chapterId: string;
+}
