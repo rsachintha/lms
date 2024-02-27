@@ -2,23 +2,25 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { Pencil, PlusCircle, ImageIcon } from "lucide-react";
+import MuxPlayer from "@mux/mux-player-react";
+import { Pencil, PlusCircle, Video } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
-import { ImageFormProps } from "@/types";
+import { ChapterVideoProps } from "@/types";
 
 const formSchema = z.object({
-  imageUrl: z.string().min(1, {
-    message: "Image is required",
-  }),
+  videoUrl: z.string().min(1),
 });
 
-export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
+export const ChapterVideoForm = ({
+  initialData,
+  courseId,
+  chapterId,
+}: ChapterVideoProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -27,8 +29,11 @@ export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/courses/${courseId}`, values);
-      toast.success("Course updated");
+      await axios.patch(
+        `/api/courses/${courseId}/chapters/${chapterId}`,
+        values
+      );
+      toast.success("Chapter updated");
       toggleEdit();
       router.refresh();
     } catch {
@@ -39,51 +44,52 @@ export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Course image
+        Chapter video
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing && <>Cancel</>}
-          {!isEditing && !initialData.imageUrl && (
+          {!isEditing && !initialData.videoUrl && (
             <>
               <PlusCircle className="h-4 w-4 mr-2" />
-              Add an image
+              Add a video
             </>
           )}
-          {!isEditing && initialData.imageUrl && (
+          {!isEditing && initialData.videoUrl && (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit image
+              Edit video
             </>
           )}
         </Button>
       </div>
       {!isEditing &&
-        (!initialData.imageUrl ? (
+        (!initialData.videoUrl ? (
           <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
-            <ImageIcon className="h-10 w-10 text-slate-500" />
+            <Video className="h-10 w-10 text-slate-500" />
           </div>
         ) : (
           <div className="relative aspect-video mt-2">
-            <Image
-              alt="Upload"
-              fill
-              className="object-cover rounded-md"
-              src={initialData.imageUrl}
-            />
+            <MuxPlayer playbackId={initialData?.muxData?.playbackId || ""} />
           </div>
         ))}
       {isEditing && (
         <div>
           <FileUpload
-            endpoint="courseImage"
+            endpoint="chapterVideo"
             onChange={(url) => {
               if (url) {
-                onSubmit({ imageUrl: url });
+                onSubmit({ videoUrl: url });
               }
             }}
           />
           <div className="text-xs text-muted-foreground mt-4">
-            16:9 aspect ratio recommended
+            Upload this chapter's video
           </div>
+        </div>
+      )}
+      {initialData.videoUrl && !isEditing && (
+        <div>
+          Videos can take a few minutes to process. Refresh the page if video
+          does not appear.
         </div>
       )}
     </div>

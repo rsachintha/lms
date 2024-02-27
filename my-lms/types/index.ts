@@ -1,5 +1,5 @@
 import { ourFileRouter } from "@/app/api/uploadthing/core";
-import { Attachment, Chapter, Course } from "@prisma/client";
+import { Attachment, Chapter, Course, MuxData } from "@prisma/client";
 import { LucideIcon } from "lucide-react";
 
 export interface SidebarItemProps {
@@ -90,4 +90,28 @@ export interface ChapterAccessFormProps {
   initialData: Chapter;
   courseId: string;
   chapterId: string;
+}
+
+export interface ChapterVideoProps {
+  initialData: Chapter & { muxData?: MuxData | null };
+  courseId: string;
+  chapterId: string;
+}
+
+export interface ChapterActionsProps {
+  disabled: boolean;
+  courseId: string;
+  chapterId: string;
+  isPublished: boolean;
+}
+
+export interface ConfirmModalProps {
+  children: React.ReactNode;
+  onConfirm: () => void;
+}
+
+export interface ActionsProps {
+  disabled: boolean;
+  courseId: string;
+  isPublished: boolean;
 }
