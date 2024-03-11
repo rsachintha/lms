@@ -1,6 +1,7 @@
 import { ourFileRouter } from "@/app/api/uploadthing/core";
-import { Attachment, Chapter, Course, MuxData } from "@prisma/client";
+import { Attachment, Category, Chapter, Course, MuxData } from "@prisma/client";
 import { LucideIcon } from "lucide-react";
+import { IconType } from "react-icons/lib";
 
 export interface SidebarItemProps {
   icon: LucideIcon;
@@ -114,4 +115,14 @@ export interface ActionsProps {
   disabled: boolean;
   courseId: string;
   isPublished: boolean;
+}
+
+export interface CategoriesProps {
+  items: Category[];
+}
+
+export interface CategoryItemProps {
+  label: string;
+  value?: string;
+  icon?: IconType;
 }
