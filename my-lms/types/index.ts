@@ -1,5 +1,12 @@
 import { ourFileRouter } from "@/app/api/uploadthing/core";
-import { Attachment, Category, Chapter, Course, MuxData } from "@prisma/client";
+import {
+  Attachment,
+  Category,
+  Chapter,
+  Course,
+  MuxData,
+  UserProgress,
+} from "@prisma/client";
 import { LucideIcon } from "lucide-react";
 import { IconType } from "react-icons/lib";
 
@@ -125,4 +132,83 @@ export interface CategoryItemProps {
   label: string;
   value?: string;
   icon?: IconType;
+}
+
+export interface SearchPageProps {
+  searchParams: {
+    title: string;
+    categoryId: string;
+  };
+}
+
+export interface CourseCardProps {
+  id: string;
+  title: string;
+  imageUrl: string;
+  chaptersLength: number;
+  price: number;
+  progress: number | null;
+  category: string;
+}
+
+export interface CourseProgressProps {
+  value: number;
+  variant?: "default" | "success";
+  size?: "default" | "sm";
+}
+
+export interface CourseSidebarProps {
+  course: Course & {
+    chapters: (Chapter & {
+      userProgress: UserProgress[] | null;
+    })[];
+  };
+  progressCount: number;
+}
+
+export interface CourseSidebarItemProps {
+  label: string;
+  id: string;
+  isCompleted: boolean;
+  courseId: string;
+  isLocked: boolean;
+}
+
+export interface CourseNavbarProps {
+  course: Course & {
+    chapters: (Chapter & {
+      userProgress: UserProgress[] | null;
+    })[];
+  };
+  progressCount: number;
+}
+
+export interface CourseMobileSidebarProps {
+  course: Course & {
+    chapters: (Chapter & {
+      userProgress: UserProgress[] | null;
+    })[];
+  };
+  progressCount: number;
+}
+
+export interface GetChapterProps {
+  userId: string;
+  courseId: string;
+  chapterId: string;
+}
+
+export interface VideoPlayerProps {
+  playbackId: string;
+  courseId: string;
+  chapterId: string;
+  nextChapterId?: string;
+  isLocked: boolean;
+  completeOnEnd: boolean;
+  title: string;
+}
+
+export interface CourseEnrollButtonProps {
+  price: number;
+  courseId: string;
 }
