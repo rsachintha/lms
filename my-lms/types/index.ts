@@ -212,3 +212,23 @@ export interface CourseEnrollButtonProps {
   price: number;
   courseId: string;
 }
+
+export interface CourseProgressButtonProps {
+  chapterId: string;
+  courseId: string;
+  isCompleted?: boolean;
+  nextChapterId?: string;
+}
+
+export interface InfoCardProps {
+  numberOfItems: number;
+  variant?: "default" | "success";
+  label: string;
+  icon: LucideIcon;
+}
+
+export interface DataCardProps {
+  value: number;
+  label: string;
+  shouldFormat?: boolean;
+}
